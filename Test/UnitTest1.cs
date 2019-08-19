@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using DynamicLambda;
+using DynamicLambda.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LambdaTest
@@ -57,7 +57,7 @@ namespace LambdaTest
                 .GetLambda().Compile();
             var result = _people.Where(lambda).ToList();
 
-            Assert.AreEqual("Smith",result[0].LastName);
+            Assert.AreEqual("Smith", result[0].LastName);
 
 
         }

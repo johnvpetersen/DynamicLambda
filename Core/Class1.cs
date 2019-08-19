@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DynamicLambda
+namespace DynamicLambda.Core
 {
     public class ExpressionCriteria<T>
     {
