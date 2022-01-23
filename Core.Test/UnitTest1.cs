@@ -2,18 +2,16 @@
 using System.Linq;
 using System.Linq.Expressions;
 using DynamicLambda.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
-namespace LambdaTest
-{
-    [TestClass]
+namespace Core.Test;
+
     public class UnitTest1
     {
         private List<Person> _people = new List<Person>();
 
 
-        [TestInitialize]
-        public void init()
+        public UnitTest1()
         {
             var person = new Person();
             person.FirstName = "John";
@@ -43,7 +41,7 @@ namespace LambdaTest
         }
 
 
-        [TestMethod]
+        [Fact]
         public void TestMethod1()
         {
             var lambda = new ExpressionCriteria<Person>()
@@ -54,12 +52,12 @@ namespace LambdaTest
                 .Or()
                 .Add("Address.Street", "Market Street",
                     ExpressionType.Equal)
-                .GetLambda().Compile();
-            var result = _people.Where(lambda).ToList();
+                .GetLambda();
 
-            Assert.AreEqual("Smith", result[0].LastName);
-
-
+                var expected = "person => (((person.Age > 60) And (person.Address.City == \"Paoli\")) Or (person.Address.Street == \"Market Street\"))";
+                Assert.Equal(expected,lambda.ToString());
+                var result = _people.Where(lambda.Compile()).ToList();
+                Assert.Equal("Smith", result[0].LastName);
         }
 
     }
@@ -85,6 +83,3 @@ namespace LambdaTest
         public Address Address { get; set; }
         public int Age { get; set; }
     }
-
-
-}

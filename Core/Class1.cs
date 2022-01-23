@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DynamicLambda.Core
-{
+namespace DynamicLambda.Core;
+
     public class ExpressionCriteria<T>
     {
         List<ExpressionCriterion> _expressionCriterion = new
@@ -124,4 +121,4 @@ namespace DynamicLambda.Core
             public string AndOr { get; }
         }
     }
-}
+
