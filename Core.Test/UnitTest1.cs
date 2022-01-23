@@ -13,31 +13,31 @@ namespace Core.Test;
 
         public UnitTest1()
         {
-            var person = new Person();
-            person.FirstName = "John";
-            person.LastName = "Doe";
-            person.Age = 29;
-            person.Address.Number = "1234";
-            person.Address.Street = "Main Street";
-            person.Address.City = "Philadelphia";
-            person.Address.State = "PA";
-            person.Address.Zipcode = "19101";
+            _people.Add(new Person() {
+               FirstName = "John",
+               LastName = "Doe",
+               Age = 29,
+            Address = new Address() {
+                Number = "1234",
+                Street = "Main Street",
+                City = "Philadelphia",
+                State = "PA",
+                Zipcode = "19101",
+               }
+            });
 
-            _people.Add(person);
-
-            person = new Person();
-            person.FirstName = "Bob";
-            person.LastName = "Smith";
-            person.Age = 65;
-            person.Address.Number = "123";
-            person.Address.Street = "Lancaster Avenue";
-            person.Address.City = "Paoli";
-            person.Address.State = "PA";
-            person.Address.Zipcode = "19301";
-
-            _people.Add(person);
-
-
+            _people.Add(new Person() {
+               FirstName = "Bob",
+               LastName = "Smith",
+               Age = 65,
+            Address = new Address() {
+                Number = "123",
+                Street = "Lancaster Avenue",
+                City = "Paoli",
+                State = "PA",
+                Zipcode = "19301",
+               }
+            });
         }
 
 
@@ -54,6 +54,7 @@ namespace Core.Test;
                     ExpressionType.Equal)
                 .GetLambda();
 
+    
                 var expected = "person => (((person.Age > 60) And (person.Address.City == \"Paoli\")) Or (person.Address.Street == \"Market Street\"))";
                 Assert.Equal(expected,lambda.ToString());
                 var result = _people.Where(lambda.Compile()).ToList();
@@ -63,23 +64,19 @@ namespace Core.Test;
     }
 
 
-    public class Address
+    public record Address
     {
-        public string Number { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Zipcode { get; set; }
+        public string Number { get; init; }
+        public string Street { get; init; }
+        public string City { get; init; }
+        public string State { get; init; }
+        public string Zipcode { get; init; }
     }
-    public class Person
+    public record Person
     {
-        public Person()
-        {
-            this.Address = new Address();
-        }
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Address Address { get; set; }
-        public int Age { get; set; }
+        public string FirstName { get; init; }
+        public string LastName { get; init; }
+        public Address Address { get; init; }
+        public int Age { get; init; }
     }
